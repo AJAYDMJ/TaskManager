@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 
 const TOKEN_STORAGE_KEY = 'task-manager.jwt'
+const API_BASE_URL = import.meta.env.VITE_API_URL
 
 function App() {
   const [taskInput, setTaskInput] = useState('')
@@ -16,7 +17,7 @@ function App() {
   const [password, setPassword] = useState('')
 
   const apiFetch = async (url, options = {}) => {
-    const response = await fetch(url, {
+    const response = await fetch(`${API_BASE_URL}${url}`, {
       ...options,
       headers: {
         ...(options.headers ?? {}),
@@ -70,7 +71,7 @@ function App() {
     setIsLoading(true)
     try {
       if (authMode === 'register') {
-        const registerResponse = await fetch('/api/auth/register', {
+        const registerResponse = await fetch(`${API_BASE_URL}/api/auth/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -89,7 +90,7 @@ function App() {
         }
       }
 
-      const loginResponse = await fetch('/api/auth/login', {
+      const loginResponse = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
